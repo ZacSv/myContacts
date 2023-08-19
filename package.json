@@ -1,0 +1,12 @@
+{
+  "name": "mycontacts",
+  "version": "1.0.0",
+  "description": "API para armazenamento dos contatos",
+  "main": "src/index.js",
+  "repository": "https://github.com/ZacSv/Meus-Contatos.git",
+  "author": "Isac Vieira",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
