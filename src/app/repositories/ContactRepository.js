@@ -12,7 +12,7 @@ const contacts = [
 
 class ContactRepository {
     findAll() {
-        return contacts;
+        return new Promise((resolve, reject) => resolve(contacts));
     }
 }
 
