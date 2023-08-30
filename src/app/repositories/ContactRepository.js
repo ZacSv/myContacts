@@ -30,8 +30,8 @@ class ContactRepository {
     }
     delete(id) {
         return new Promise((resolve) => {
-            contacts = contacts.filter((contact) => (contact.id = !id));
-            resolve();
+            contacts = contacts.filter((contact) => contact.id !== id);
+            resolve(contacts);
         });
     }
 }
