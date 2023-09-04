@@ -14,9 +14,58 @@ class ContactController {
         response.json(contact);
     }
 
-    store() {}
+    async store(request, response) {
+        const { name, email, phone, categoryId } = request.body;
 
-    update() {}
+        if (!email || !name) {
+            response
+                .status(400)
+                .json({ Error: "E-mail and username are required" });
+        }
+
+        const contactExist = await ContactRepository.findByEmail(email);
+        if (contactExist) {
+            return response
+                .status(400)
+                .json({ Error: "Email has already registered" });
+        }
+        const contact = await ContactRepository.create({
+            name,
+            email,
+            phone,
+            categoryId,
+        });
+
+        return response.send(contact);
+    }
+
+    async update(request, response) {
+        const { name, email, phone, categoryId } = request.body;
+        const { id } = request.params;
+        const contactExist = await ContactRepository.findById(id);
+        if (!contactExist) {
+            return response.status(400).json({ Error: "User dont exist" });
+        }
+        if (!email || !name) {
+            response
+                .status(400)
+                .json({ Error: "E-mail and username are required" });
+        }
+        const contactByEmail = await ContactRepository.findByEmail(email);
+        if (contactByEmail && contactByEmail.id !== id) {
+            return response
+                .status(400)
+                .json({ Error: "Email has already registered" });
+        }
+
+        const contact = await ContactRepository.update(id, {
+            name,
+            email,
+            phone,
+            categoryId,
+        });
+        response.json(contact);
+    }
 
     async delete(request, response) {
         const { id } = request.params;
