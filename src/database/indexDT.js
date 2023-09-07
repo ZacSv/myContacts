@@ -17,9 +17,9 @@ async function connectToDatabase() {
 }
 
 // Função para executar uma consulta SQL
-async function Query(query) {
+async function Query(query, values) {
     try {
-        const { rows } = await client.query(query);
+        const { rows } = await client.query(query, values);
         return rows;
     } catch (error) {
         console.error("Erro na consulta:", error);
@@ -39,3 +39,4 @@ connectToDatabase()
     .catch((error) => {
         console.error("Erro geral:", error);
     });
+module.exports = { Query };

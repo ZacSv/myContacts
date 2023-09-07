@@ -1,4 +1,5 @@
 const { uuid } = require("uuidv4");
+const db = require("../../database/indexDT");
 
 let contacts = [
     {
@@ -39,18 +40,18 @@ class ContactRepository {
             resolve(contacts);
         });
     }
-    create({ name, email, phone, categoryId }) {
-        return new Promise((resolve) => {
-            const newContact = {
-                id: uuid(),
-                name,
-                email,
-                phone,
-                categoryId,
-            };
-            contacts.push(newContact);
-            resolve(newContact);
-        });
+    async create({ name, email, phone, categoryId }) {
+        //Cria uma nova linha no banco de dados;
+        const [row] =
+            //Insere dentro da tabela contacts os parâmetros entre parênteses;
+            await db.Query(
+                `INSERT INTO contacts(name, email, phone, categoryId)
+                 VALUES($1, $2, $3, $4)
+                 RETURNING * `,
+                [name, email, phone, categoryId]
+                //Os cifrões indicam 'binds' do PG, itens que serão substituidos pelos itens que estão dentro do array;
+            );
+        return row;
     }
 
     update(id, { name, email, phone, categoryId }) {
