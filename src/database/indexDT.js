@@ -29,13 +29,9 @@ async function Query(query, values) {
 
 connectToDatabase()
     .then(() => {
-        // Chama a função Query para executar a consulta
-        return Query("SELECT * FROM contacts");
+        console.log("");
     })
-    .then((result) => {
-        // Resultados da consulta são passados para console.log
-        console.log(result);
-    })
+
     .catch((error) => {
         console.error("Erro geral:", error);
     });
