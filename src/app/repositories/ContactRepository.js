@@ -1,23 +1,4 @@
-const { uuid } = require("uuidv4");
 const db = require("../../database/indexDT");
-
-let contacts = [
-    {
-        id: uuid(),
-        name: "Isac Vieira",
-        email: "isac@mail.com",
-        phone: "123123123",
-        category_id: uuid(),
-    },
-    {
-        id: uuid(),
-        name: "Taquain Maniçoba",
-        email: "taquain@mail.com",
-        phone: "555142416217",
-        category_id: uuid(),
-    },
-];
-
 class ContactRepository {
     //Define que se não for passado o query param "orderBy" por padrão a ordenação será ASCENDENTE
     async findAll(orderBy = "ASC") {
