@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS contacts(
     email VARCHAR UNIQUE,
     phone VARCHAR,
     categoryId UUID,
+    /*Chave estrangeira referenciando a tabela de categorias no atributo ID */
     FOREIGN KEY(categoryId) REFERENCES categories(id)
 );

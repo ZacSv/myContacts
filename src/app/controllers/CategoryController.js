@@ -1,10 +1,11 @@
 const CategoryRepository = require("../repositories/CategoryRepository");
-const ContactRepository = require("../repositories/ContactRepository");
 class CategoryController {
+    //Método que trás todas as categorias disponíveis para serem injetadas aos contatos
     async index(request, response) {
         let categorias = await CategoryRepository.findAll();
         response.json(categorias);
     }
+    //Mostra uma categoria específica buscada através do ID
     async show(request, response) {
         const { id } = request.params;
         const category = await CategoryRepository.findById(id);
@@ -13,6 +14,7 @@ class CategoryController {
         }
         response.json(category);
     }
+    //Cria uma nova categoria
     async store(request, response) {
         const { name } = request.body;
         if (!name) {
@@ -29,6 +31,7 @@ class CategoryController {
         const category = await CategoryRepository.create({ name });
         response.send(category);
     }
+    //Modifica as categorias existentes
     async update(request, response) {
         const { name } = request.body;
         const { id } = request.params;
