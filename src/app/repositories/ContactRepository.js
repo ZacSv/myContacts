@@ -4,15 +4,26 @@ class ContactRepository {
     async findAll(orderBy = "ASC") {
         //Burla a vulnerabilidade de SQL Injection garantingo que os parâmetros sejam somente ASC ou DESC
         const direction = orderBy.toUpperCase() === "DESC" ? "DESC" : "ASC";
+        /*Esta query não irá apenas trazer os contatos mas tambpem injetar o nome da categoria do contato em tempo de execução*/
         const rows = await db.Query(
-            `SELECT * FROM contacts ORDER BY name ${direction}`
+            /*Esta primeira linha seleciona a tabela de contatos por completo e diz que o atributo name da tabela de categories
+            será utilizado como "categoryName", o nome não irá se alterar no schema, somente no tempo de execução e dentro deste escopo*/
+            `SELECT contacts.*, categories.name AS categoryName
+            FROM contacts
+            LEFT JOIN categories ON categories.id = contacts.categoryId
+            ORDER BY contacts.name ${direction}`
         );
         return rows;
     }
     async findById(id) {
-        const [row] = await db.Query("SELECT * FROM contacts WHERE id = $1", [
-            id,
-        ]);
+        const [row] = await db.Query(
+            `
+        SELECT contacts.*, categories.name AS categoryName
+        FROM contacts
+        LEFT JOIN categories ON categories.id = contacts.categoryId
+        WHERE contacts.id = $1`,
+            [id]
+        );
         return row;
     }
     async findByEmail(email) {
