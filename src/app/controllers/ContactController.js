@@ -74,6 +74,5 @@ class ContactController {
         response.sendStatus(204);
     }
 }
-//Desing Pattern -> Singleton
 //Garante que quando a classe for chamada será instanciada em memória e quando chamada novamente usará a mesma que já está em memória
 module.exports = new ContactController();
